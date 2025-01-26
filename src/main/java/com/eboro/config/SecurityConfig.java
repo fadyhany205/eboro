@@ -19,7 +19,6 @@ public class SecurityConfig {
 
     private final JpaUserDetails userDetailsService; // Injected field, assumed to be correctly managed by Spring
 
-    // HTTP security configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -37,13 +36,11 @@ public class SecurityConfig {
     }
 
 
-    // Password encoder bean (BCrypt)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // Authentication provider bean
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -52,7 +49,6 @@ public class SecurityConfig {
         return authProvider;
     }
 
-    // Authentication manager bean
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager(); // Get AuthenticationManager from Spring Security
