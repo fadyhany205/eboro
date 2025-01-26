@@ -1,15 +1,18 @@
 package com.eboro.models;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.Instant;
+import java.util.Set;
 
+@Builder
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "users", schema = "eboro", indexes = {
         @Index(name = "users_stripe_id_index", columnList = "stripe_id")
 }, uniqueConstraints = {
@@ -22,7 +25,8 @@ public class User {
 
     @Column(name = "name", nullable = false, length = 100)
     private String name;
-
+    @Column (name="username",length = 50)
+    private String username;
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
@@ -125,5 +129,19 @@ public class User {
     @Lob
     @Column(name = "apple_id")
     private String appleId;
-
+    @Singular("Authority")
+    @ManyToMany(cascade = CascadeType.MERGE, fetch =
+            FetchType.EAGER)
+    @JoinTable(name = "USER_AUTHORITY",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
+            inverseJoinColumns = {@JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "ID")})
+    private Set<Authority> authority;
+    @Builder.Default
+    private Boolean accountNonExpired = true;
+    @Builder.Default
+    private Boolean accountNonLocked = true;
+    @Builder.Default
+    private Boolean credentialsExpired = true;
+    @Builder.Default
+    private Boolean enabled = true;
 }
