@@ -1,9 +1,6 @@
 package com.eboro.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,5 +21,6 @@ public class PasswordReset {
 
     @Column(name = "created_at")
     private Instant createdAt;
-
+    @Id
+    private Long id;
 }
