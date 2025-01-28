@@ -27,14 +27,16 @@ public class SecurityConfig {
                                 .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()
                                 .anyRequest().authenticated()
                 )
-                .formLogin(AbstractAuthenticationFilterConfigurer::permitAll
+                .formLogin(form ->
+                        form
+                                .permitAll()
+                                .defaultSuccessUrl("/home", true) // Redirect to home ("/") after successful login
                 )
                 .logout(LogoutConfigurer::permitAll
                 );
 
         return http.build();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
